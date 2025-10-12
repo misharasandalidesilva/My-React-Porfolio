@@ -64,9 +64,9 @@ export default function AboutMe({ darkMode = true, aboutImage, setAboutImage }: 
         {/* Header */}
         <h2 
           key={`title-${animationKey}`}
-          className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 sm:mb-4 text-center bg-gradient-to-r ${darkMode ? 'from-blue-400 to-purple-400' : 'from-blue-600 to-purple-600'} bg-clip-text text-transparent animate-fade-in`}
+          className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 sm:mb-4 text-center bg-gradient-to-r ${darkMode ? 'from-blue-200 to-blue-400' : ''} bg-clip-text text-transparent animate-fade-in`}
         >
-          About Me 👩‍💻
+          About Me <span className="ml-2 text-white drop-shadow-lg">👩‍💻</span>
         </h2>
         
         <p 

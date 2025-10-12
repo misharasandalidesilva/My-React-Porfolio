@@ -1,175 +1,188 @@
-import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, MessageSquare, Clock, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Facebook, MessageSquare } from 'lucide-react';
 
 interface ContactProps {
-  darkMode: boolean;
+  darkMode?: boolean;
 }
 
-export default function Contact({ darkMode }: ContactProps) {
+export default function Contact({ darkMode = true }: ContactProps) {
+  const [animationKey, setAnimationKey] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setAnimationKey(prev => prev + 1);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  const handleSubmit = async () => {
+    // Validate form
+    if (!formData.name || !formData.email || !formData.message) {
+      alert('Please fill in all required fields! ⚠️');
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      alert('Please enter a valid email address! ⚠️');
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+
+    try {
+      // Using FormSubmit.co - No setup required!
+      const response = await fetch('https://formsubmit.co/ajax/misharasandali@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || 'New Contact Form Message',
+          message: formData.message,
+          _captcha: 'false', // Disable captcha for testing
+        }),
+      });
       
-      // Reset success message after 3 seconds
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
+        alert('Message sent successfully! 🎉 I will get back to you soon.');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error('Failed to send');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      // Fallback to mailto if FormSubmit fails
+      const mailtoLink = `mailto:misharasandali@gmail.com?subject=${encodeURIComponent(formData.subject || 'Contact Form Message')}&body=${encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      )}`;
+      
+      window.location.href = mailtoLink;
+      
       setTimeout(() => {
-        setIsSuccess(false);
-      }, 3000);
-    }, 1500);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        alert('Opening your email client... Please send the email. 📧');
+      }, 500);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const sendToWhatsApp = () => {
+    if (!formData.name || !formData.message) {
+      alert('Please fill in your name and message! ⚠️');
+      return;
+    }
+
+    const message = `*New Contact Message*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email || 'Not provided'}%0A*Subject:* ${formData.subject || 'N/A'}%0A%0A*Message:*%0A${formData.message}`;
+    window.open(`https://wa.me/94704044549?text=${message}`, '_blank');
+    
+    setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
   const contactInfo = [
     {
-      icon: <Mail className="w-5 h-5" />,
+      icon: <Mail className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6" />,
       title: 'Email',
-      value: 'mishara.sandali@example.com',
-      link: 'mailto:mishara.sandali@example.com',
-      gradient: 'from-pink-500 to-purple-600'
+      value: 'misharasandali@gmail.com',
+      link: 'mailto:misharasandali@gmail.com',
+      color: 'from-blue-400 to-blue-600'
     },
     {
-      icon: <Phone className="w-5 h-5" />,
+      icon: <Phone className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6" />,
       title: 'Phone',
-      value: '+94 77 123 4567',
-      link: 'tel:+94771234567',
-      gradient: 'from-purple-500 to-blue-600'
+      value: '+94 704044549',
+      link: 'tel:+94704044549',
+      color: 'from-green-400 to-green-600'
     },
     {
-      icon: <MapPin className="w-5 h-5" />,
+      icon: <MapPin className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6" />,
       title: 'Location',
-      value: 'Colombo, Sri Lanka',
+      value: 'Matara, Sri Lanka',
       link: '#',
-      gradient: 'from-blue-500 to-pink-600'
-    },
-    {
-      icon: <Clock className="w-5 h-5" />,
-      title: 'Availability',
-      value: 'Mon - Fri, 9AM - 6PM',
-      link: '#',
-      gradient: 'from-pink-500 via-purple-500 to-blue-500'
-    }
-  ];
-
-  const socialLinks = [
-    {
-      icon: <Github className="w-5 h-5" />,
-      label: 'Github',
-      link: '#',
-      gradient: 'from-gray-700 to-gray-900'
-    },
-    {
-      icon: <Linkedin className="w-5 h-5" />,
-      label: 'LinkedIn',
-      link: '#',
-      gradient: 'from-blue-600 to-blue-700'
-    },
-    {
-      icon: <Twitter className="w-5 h-5" />,
-      label: 'Twitter',
-      link: '#',
-      gradient: 'from-sky-500 to-blue-600'
-    },
-    {
-      icon: <MessageSquare className="w-5 h-5" />,
-      label: 'Telegram',
-      link: '#',
-      gradient: 'from-blue-400 to-cyan-500'
+      color: 'from-purple-400 to-purple-600'
     }
   ];
 
   return (
     <section 
+      ref={sectionRef}
       id="contact" 
-      className={`py-16 sm:py-20 md:py-24 lg:py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden ${
-        darkMode ? 'bg-gray-900/50' : 'bg-gray-50/50'
-      } transition-all duration-500`}
+      className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 flex flex-col items-start justify-center py-12 xs:py-16 sm:py-20 md:py-24 text-left px-3 xs:px-4 sm:px-8 md:px-16 lg:px-24 overflow-hidden"
     >
-      {/* Background Decorations */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className={`absolute top-20 right-10 w-72 h-72 sm:w-96 sm:h-96 ${
-          darkMode ? 'bg-pink-500' : 'bg-pink-300'
-        } rounded-full blur-3xl animate-pulse`}></div>
-        <div className={`absolute bottom-20 left-10 w-64 h-64 sm:w-80 sm:h-80 ${
-          darkMode ? 'bg-purple-500' : 'bg-purple-300'
-        } rounded-full blur-3xl animate-pulse`} style={{animationDelay: '1s'}}></div>
-        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 ${
-          darkMode ? 'bg-blue-500' : 'bg-blue-300'
-        } rounded-full blur-3xl animate-pulse`} style={{animationDelay: '2s'}}></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
-          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ${
-            darkMode 
-              ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' 
-              : 'bg-purple-100 text-purple-700 border border-purple-300'
-          }`}>
-            Get In Touch
-          </span>
-          <h2 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 bg-gradient-to-r ${
-            darkMode 
-              ? 'from-pink-400 via-purple-400 to-blue-400' 
-              : 'from-pink-600 via-purple-600 to-blue-600'
-          } bg-clip-text text-transparent`}>
-            Let's Work Together
+      <div className="relative z-10 w-full max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-6 xs:mb-8 sm:mb-10 md:mb-12">
+          <h2 
+            key={`title-${animationKey}`}
+            className={`text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-2 xs:mb-3 sm:mb-4 text-center bg-gradient-to-r ${darkMode ? 'from-blue-200 to-blue-400' : ''} bg-clip-text text-transparent animate-fade-in`}
+          >
+            Get In Touch <span className="ml-2 text-white drop-shadow-lg">📬</span>
           </h2>
-          <p className={`text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto ${
-            darkMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            Have a project in mind? I'm always open to discussing new opportunities and creative collaborations.
+          <p 
+            key={`subtitle-${animationKey}`}
+            className={`text-xs xs:text-sm sm:text-base md:text-lg ${
+              darkMode ? 'text-gray-300' : 'text-gray-600'
+            } animate-fade-in`}
+            style={{ animationDelay: '0.2s' }}
+          >
+            Let's work together on your next project
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10">
-          {/* Left Side - Contact Info (2 columns) */}
-          <div className="lg:col-span-2 space-y-6 animate-slide-in-left">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 md:gap-8">
+          {/* Contact Info & Social Links */}
+          <div 
+            key={`info-${animationKey}`}
+            className="space-y-3 xs:space-y-4 animate-slide-in-left"
+          >
             {/* Contact Cards */}
-            <div className="space-y-4">
+            <div className="space-y-2 xs:space-y-3">
               {contactInfo.map((info, index) => (
                 <a
                   key={index}
                   href={info.link}
-                  className={`block p-5 rounded-2xl ${
-                    darkMode 
-                      ? 'bg-gray-800/50 hover:bg-gray-800 border border-gray-700/50 hover:border-purple-500/50' 
-                      : 'bg-white hover:bg-gray-50 border border-gray-200 hover:border-purple-300'
-                  } backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group`}
+                  className="group block p-2.5 xs:p-3 sm:p-4 bg-gray-800/60 backdrop-blur-sm rounded-lg sm:rounded-xl border-2 border-gray-700/50 hover:border-blue-500/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${info.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <div className="text-white">{info.icon}</div>
+                  <div className="flex items-center gap-2 xs:gap-2.5 sm:gap-3">
+                    <div className={`p-1.5 xs:p-2 sm:p-3 bg-gradient-to-br ${info.color} rounded-lg sm:rounded-xl text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      {info.icon}
                     </div>
-                    <div className="flex-1">
-                      <p className={`text-sm font-medium mb-1 ${
-                        darkMode ? 'text-gray-400' : 'text-gray-500'
-                      }`}>
+                    <div>
+                      <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-0.5`}>
                         {info.title}
                       </p>
-                      <p className={`text-base font-semibold ${
-                        darkMode ? 'text-white' : 'text-gray-900'
-                      }`}>
+                      <p className={`text-xs sm:text-sm md:text-base font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} break-all`}>
                         {info.value}
                       </p>
                     </div>
@@ -179,230 +192,185 @@ export default function Contact({ darkMode }: ContactProps) {
             </div>
 
             {/* Social Links */}
-            <div className={`p-6 rounded-2xl ${
-              darkMode 
-                ? 'bg-gray-800/50 border border-gray-700/50' 
-                : 'bg-white border border-gray-200'
-            } backdrop-blur-sm`}>
-              <h3 className={`text-lg font-bold mb-4 ${
-                darkMode ? 'text-white' : 'text-gray-900'
-              }`}>
-                Follow Me On
+            <div className="p-3 xs:p-4 sm:p-5 bg-gray-800/60 backdrop-blur-sm rounded-lg sm:rounded-xl border-2 border-gray-700/50 hover:border-blue-500/30 transition-all duration-300">
+              <h3 className={`text-sm xs:text-base sm:text-lg md:text-xl font-bold mb-2.5 xs:mb-3 sm:mb-4 bg-gradient-to-r from-blue-400 to-blue-400 bg-clip-text text-transparent`}>
+                Connect With Me
               </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {socialLinks.map((social, index) => (
+              <div className="flex flex-wrap gap-3 xs:gap-3 sm:gap-6 justify-center"> 
+                {[
+                  {
+                    href: 'https://github.com/misharasandalidesilva',
+                    icon: <Github className="w-4 h-4 xs:w-5 xs:h-5" />,
+                  },
+                  {
+                    href: 'https://www.linkedin.com/in/mishara-sandali-558557319/',
+                    icon: <Linkedin className="w-4 h-4 xs:w-5 xs:h-5" />,
+                  },
+                  {
+                    href: 'https://www.facebook.com/share/xtHt4rjZG8rtJWdT/',
+                    icon: <Facebook className="w-4 h-4 xs:w-5 xs:h-5" />,
+                  },
+                  {
+                    href: 'mailto:misharasandali@gmail.com',
+                    icon: <Mail className="w-4 h-4 xs:w-5 xs:h-5" />,
+                  },
+                  {
+                    href: 'https://wa.me/message/CXTCRIUAFFKLD1',
+                    icon: (
+                      <svg className="w-4 h-4 xs:w-5 xs:h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                      </svg>
+                    ),
+                  },
+                ].map((item, index) => (
                   <a
                     key={index}
-                    href={social.link}
-                    className={`flex items-center justify-center gap-2 p-3 rounded-xl bg-gradient-to-br ${social.gradient} text-white font-semibold text-sm hover:shadow-lg hover:scale-105 transition-all duration-300`}
+                    href={item.href}
+                    target={item.href.startsWith('mailto:') ? '_self' : '_blank'}
+                    rel={item.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                    className="w-10 h-10 xs:w-12 xs:h-12 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:text-blue-400 hover:bg-gray-700 transition-all duration-300 shadow-md transform hover:scale-110 border border-blue-500"
                   >
-                    {social.icon}
-                    <span>{social.label}</span>
+                    {item.icon}
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Quick Response Badge */}
-            <div className={`p-5 rounded-2xl ${
-              darkMode 
-                ? 'bg-gradient-to-br from-green-900/30 to-emerald-900/30 border border-green-500/30' 
-                : 'bg-gradient-to-br from-green-50 to-emerald-50 border border-green-300'
-            }`}>
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                <div>
-                  <p className={`text-sm font-bold ${
-                    darkMode ? 'text-green-400' : 'text-green-700'
-                  }`}>
-                    Available for projects
-                  </p>
-                  <p className={`text-xs ${
-                    darkMode ? 'text-gray-400' : 'text-gray-600'
-                  }`}>
-                    Usually responds within 24 hours
-                  </p>
-                </div>
-              </div>
+            {/* Additional Info */}
+            <div className="p-2.5 xs:p-3 sm:p-4 md:p-5 bg-gradient-to-br from-blue-900/10 to-blue-500/20 backdrop-blur-sm rounded-lg sm:rounded-xl border-2 border-blue-800/80">
+              <h3 className="text-xs xs:text-sm sm:text-base md:text-lg font-bold mb-1 xs:mb-1.5 sm:mb-2 text-blue-300">
+                💡 Quick Response
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-200 leading-relaxed">
+                I typically respond within 24 hours. Looking forward to hearing from you!
+              </p>
             </div>
           </div>
 
-          {/* Right Side - Contact Form (3 columns) */}
-          <div className="lg:col-span-3 animate-slide-in-right">
-            <div className={`p-6 sm:p-8 rounded-2xl sm:rounded-3xl ${
-              darkMode 
-                ? 'bg-gray-800/50 border border-gray-700/50' 
-                : 'bg-white border border-gray-200'
-            } backdrop-blur-sm shadow-2xl`}>
-              {isSuccess && (
-                <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 flex items-center gap-3 animate-fade-in">
-                  <CheckCircle className="w-6 h-6 text-green-500" />
-                  <div>
-                    <p className={`font-semibold ${darkMode ? 'text-green-400' : 'text-green-700'}`}>
-                      Message sent successfully!
-                    </p>
-                    <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      I'll get back to you soon.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Name & Email Row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className={`block text-sm font-semibold mb-2 ${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Full Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="John Doe"
-                      required
-                      className={`w-full px-4 py-3 rounded-xl ${
-                        darkMode 
-                          ? 'bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-purple-500' 
-                          : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400 focus:border-purple-500'
-                      } border-2 focus:outline-none transition-all duration-300`}
-                    />
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-semibold mb-2 ${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Email Address <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="john@example.com"
-                      required
-                      className={`w-full px-4 py-3 rounded-xl ${
-                        darkMode 
-                          ? 'bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-purple-500' 
-                          : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400 focus:border-purple-500'
-                      } border-2 focus:outline-none transition-all duration-300`}
-                    />
-                  </div>
-                </div>
-
-                {/* Subject */}
+          {/* Contact Form */}
+          <div 
+            key={`form-${animationKey}`}
+            className="animate-slide-in-right"
+          >
+            <div className="space-y-3 xs:space-y-4">
+              <div className="p-3 xs:p-4 sm:p-5 md:p-6 bg-gray-800/60 backdrop-blur-sm rounded-lg sm:rounded-xl border-2 border-gray-700/50 space-y-2.5 xs:space-y-3 sm:space-y-4">
+                {/* Name Input */}
                 <div>
-                  <label className={`block text-sm font-semibold mb-2 ${
-                    darkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Subject <span className="text-red-500">*</span>
+                  <label className="block text-xs sm:text-sm font-semibold mb-1 xs:mb-1.5 text-gray-300">
+                    Your Name 
                   </label>
                   <input
                     type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    placeholder="Project Inquiry"
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    className="w-full px-2.5 py-2 xs:px-3 xs:py-2 sm:px-4 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all duration-300 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-gray-700/50 text-white border-2 border-gray-600 focus:border-blue-400"
+                    placeholder="Name"
                     required
-                    className={`w-full px-4 py-3 rounded-xl ${
-                      darkMode 
-                        ? 'bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-purple-500' 
-                        : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400 focus:border-purple-500'
-                    } border-2 focus:outline-none transition-all duration-300`}
                   />
                 </div>
 
-                {/* Message */}
+                {/* Email Input */}
                 <div>
-                  <label className={`block text-sm font-semibold mb-2 ${
-                    darkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Your Message <span className="text-red-500">*</span>
+                  <label className="block text-xs sm:text-sm font-semibold mb-1 xs:mb-1.5 text-gray-300">
+                    Your Email 
+                  </label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    className="w-full px-2.5 py-2 xs:px-3 xs:py-2 sm:px-4 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all duration-300 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-gray-700/50 text-white border-2 border-gray-600 focus:border-blue-400"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+
+                {/* Subject Input */}
+                <div>
+                  <label className="block text-xs sm:text-sm font-semibold mb-1 xs:mb-1.5 text-gray-300">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.subject}
+                    onChange={(e) => setFormData({...formData, subject: e.target.value})}
+                    className="w-full px-2.5 py-2 xs:px-3 xs:py-2 sm:px-4 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all duration-300 focus:ring-2 focus:ring-blue-400 focus:outline-none bg-gray-700/50 text-white border-2 border-gray-600 focus:border-blue-400"
+                    placeholder="Project Discussion"
+                  />
+                </div>
+
+                {/* Message Textarea */}
+                <div>
+                  <label className={`block text-xs sm:text-sm font-semibold mb-1 xs:mb-1.5 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    Message 
                   </label>
                   <textarea
-                    name="message"
                     value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tell me about your project, timeline, and budget..."
-                    rows={6}
-                    required
-                    className={`w-full px-4 py-3 rounded-xl ${
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                    rows={4}
+                    className={`w-full px-2.5 py-2 xs:px-3 xs:py-2 sm:px-4 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none ${
                       darkMode 
-                        ? 'bg-gray-900/50 border-gray-700 text-white placeholder-gray-500 focus:border-purple-500' 
-                        : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400 focus:border-purple-500'
-                    } border-2 focus:outline-none transition-all duration-300 resize-none`}
+                        ? 'bg-gray-700/50 text-white border-2 border-gray-600 focus:border-blue-500' 
+                        : 'bg-white text-gray-900 border-2 border-gray-300 focus:border-blue-500'
+                    }`}
+                    placeholder="Tell me about your project..."
+                    required
                   />
                 </div>
 
-                {/* Character Count */}
-                <p className={`text-xs text-right ${
-                  darkMode ? 'text-gray-500' : 'text-gray-500'
-                }`}>
-                  {formData.message.length} / 500 characters
-                </p>
+                {/* Buttons */}
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-2 xs:gap-3">
+                  {/* Email Submit Button */}
+                  <button
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    className="group relative w-full px-4 py-2 xs:px-5 xs:py-2.5 sm:px-6 sm:py-3 overflow-hidden rounded-lg sm:rounded-xl text-xs sm:text-sm md:text-base font-bold transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-gray-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                    
+                    <span className="relative flex items-center justify-center gap-1.5 xs:gap-2 text-white z-10">
+                      {isSubmitting ? 'Sending...' : 'Send Email'}
+                      <Send className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                    </span>
+                    
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                  </button>
 
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={`relative w-full bg-gradient-to-r ${
-                    darkMode 
-                      ? 'from-pink-500 via-purple-500 to-blue-500' 
-                      : 'from-pink-400 via-purple-400 to-blue-400'
-                  } text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-[1.02] transition-all duration-300 overflow-hidden group ${
-                    isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                  }`}
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        Send Message
-                        <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                      </>
-                    )}
-                  </span>
-                  <div className={`absolute inset-0 bg-gradient-to-r ${
-                    darkMode 
-                      ? 'from-blue-500 via-purple-500 to-pink-500' 
-                      : 'from-blue-400 via-purple-400 to-pink-400'
-                  } opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
-                </button>
-              </form>
-
-              {/* Privacy Note */}
-              <p className={`text-xs text-center mt-6 ${
-                darkMode ? 'text-gray-500' : 'text-gray-500'
-              }`}>
-                🔒 Your information is secure and will never be shared with third parties.
-              </p>
+                  {/* WhatsApp Button
+                  <button
+                    onClick={sendToWhatsApp}
+                    className="group relative w-full px-4 py-2 xs:px-5 xs:py-2.5 sm:px-6 sm:py-3 overflow-hidden rounded-lg sm:rounded-xl text-xs sm:text-sm md:text-base font-bold transition-all duration-500 transform hover:scale-105 shadow-lg hover:shadow-2xl"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-green-500 to-green-600"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-600 via-green-700 to-green-600 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                    
+                    <span className="relative flex items-center justify-center gap-1.5 xs:gap-2 text-white z-10">
+                      WhatsApp
+                      <MessageSquare className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5 transform group-hover:scale-110 transition-transform duration-300" />
+                    </span>
+                    
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                  </button> */}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Custom Animations */}
       <style>{`
-        @keyframes fade-in-up {
+        @keyframes fadeIn {
           from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(20px);
           }
           to {
             opacity: 1;
             transform: translateY(0);
           }
         }
-        
-        @keyframes slide-in-left {
+
+        @keyframes slideInLeft {
           from {
             opacity: 0;
             transform: translateX(-50px);
@@ -412,8 +380,8 @@ export default function Contact({ darkMode }: ContactProps) {
             transform: translateX(0);
           }
         }
-        
-        @keyframes slide-in-right {
+
+        @keyframes slideInRight {
           from {
             opacity: 0;
             transform: translateX(50px);
@@ -423,44 +391,21 @@ export default function Contact({ darkMode }: ContactProps) {
             transform: translateX(0);
           }
         }
-        
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        
-        .animate-fade-in-up {
-          animation: fade-in-up 0.8s ease-out forwards;
-          opacity: 0;
-        }
-        
-        .animate-slide-in-left {
-          animation: slide-in-left 0.8s ease-out forwards;
-          opacity: 0;
-        }
-        
-        .animate-slide-in-right {
-          animation: slide-in-right 0.8s ease-out forwards;
-          opacity: 0;
-          animation-delay: 0.2s;
-        }
-        
+
         .animate-fade-in {
-          animation: fade-in 0.5s ease-out forwards;
+          animation: fadeIn 0.8s ease-out forwards;
+          opacity: 0;
         }
 
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
+        .animate-slide-in-left {
+          animation: slideInLeft 0.8s ease-out forwards;
+          opacity: 0;
         }
-        
-        .animate-spin {
-          animation: spin 1s linear infinite;
+
+        .animate-slide-in-right {
+          animation: slideInRight 0.8s ease-out forwards;
+          opacity: 0;
+          animation-delay: 0.2s;
         }
       `}</style>
     </section>
