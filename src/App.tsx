@@ -4,33 +4,16 @@ import Home from './Components/Home';
 import AboutMe from './Components/AboutMe';
 import Skills from './Components/Skills';
 import Projects from './Components/Project';
-import Contact from './Components/ContactMe';
-import Footer from './Components/Footer'; 
-
+import ContactMe from './Components/ContactMe';
+import Footer from './Components/Footer';
 
 export default function App() {
 
-  const [darkMode, setDarkMode] = useState(() => {
-
-    const saved = localStorage.getItem('darkMode');
-    return saved ? JSON.parse(saved) : true;
-  });
-  
+  const [darkMode, setDarkMode] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  
-  useEffect(() => {
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
-
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
-
-  // Scroll detection
+  // Active section detection on scroll
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'about', 'skills', 'projects', 'contact'];
@@ -42,64 +25,64 @@ export default function App() {
         }
         return false;
       });
-      if (current) setActiveSection(current);
+      if (current) {
+        setActiveSection(current);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
-    // Initial check
-    handleScroll();
-    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Scroll function
+  // Smooth scroll function with navbar offset
   const scrollTo = (id: string) => {
+    console.log('ScrollTo function called with ID:', id);
+    
     const element = document.getElementById(id);
-    element?.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    });
-    setMenuOpen(false);
-    setActiveSection(id);
-  };
+    
+    if (element) {
+      console.log('Element found:', element);
+      const navbarHeight = 50;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
 
-  // Common props for all components
-  const commonProps = {
-    darkMode,
-    setDarkMode,
-    activeSection,
-    scrollTo
+      console.log('Scrolling to position:', offsetPosition);
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    } else {
+      console.error('Element NOT found with ID:', id);
+      console.log('Available IDs:', ['home', 'about', 'skills', 'projects', 'contact'].map(s => 
+        document.getElementById(s) ? `${s} ✓` : `${s} ✗`
+      ));
+    }
+    
+    setMenuOpen(false);
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
+    <div className={`min-h-screen transition-all duration-500 ${
       darkMode 
-        ? 'bg-gray-900 text-white' 
-        : 'bg-gray-50 text-gray-900'
+        ? 'bg-gray-900' : 'bg-gray-50' 
+
     }`}>
       <Navbar 
-        {...commonProps}
+        darkMode={darkMode}           
+        setDarkMode={setDarkMode}    
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
+        activeSection={activeSection}
+        scrollTo={scrollTo}
       />
       
-      <main>
-        <Home {...commonProps} />
-        
-        <AboutMe
-          {...commonProps}
-          aboutImage={''}
-          setAboutImage={() => {"WhatsApp Image 2025-04-01 at 23.19.28_f94ecae7.jpg"}}
-        />
-        
-        
-        <Skills {...commonProps} />
-
-        <Projects {...commonProps} />
-        <Contact {...commonProps} />
-        <Footer {...commonProps} /> 
-       
-      </main>
+      <Home darkMode={darkMode} scrollTo={scrollTo} />
+      <AboutMe darkMode={darkMode} />
+      <Skills darkMode={darkMode} />
+      <Projects darkMode={darkMode} />
+      <ContactMe darkMode={darkMode} />
+      <Footer darkMode={darkMode} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Github, Linkedin, Twitter, Mail, Heart, ArrowUp, Code2, Sparkles } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowUp, Code2, Sparkles } from 'lucide-react';
 
 interface FooterProps {
   darkMode: boolean;
@@ -40,90 +40,45 @@ export default function Footer({ darkMode }: FooterProps) {
 
   const currentYear = new Date().getFullYear();
 
-  const socialLinks = [
-    { 
-      icon: <Github className="w-4 h-4 sm:w-5 sm:h-5" />, 
-      label: 'Github', 
-      href: '#',
-      gradient: 'from-pink-500 to-purple-600'
-    },
-    { 
-      icon: <Linkedin className="w-4 h-4 sm:w-5 sm:h-5" />, 
-      label: 'LinkedIn', 
-      href: '#',
-      gradient: 'from-purple-500 to-blue-600'
-    },
-    { 
-      icon: <Twitter className="w-4 h-4 sm:w-5 sm:h-5" />, 
-      label: 'Twitter', 
-      href: '#',
-      gradient: 'from-blue-500 to-cyan-500'
-    },
-    { 
-      icon: <Mail className="w-4 h-4 sm:w-5 sm:h-5" />, 
-      label: 'Email', 
-      href: 'mailto:mishara.sandali@example.com',
-      gradient: 'from-pink-500 via-purple-500 to-blue-500'
-    }
-  ];
-
   const quickLinks = ['Home', 'About', 'Skills', 'Projects', 'Contact'];
 
   return (
     <footer 
       ref={footerRef}
-      className={`relative py-8 sm:py-10 md:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 border-t-2 ${
+      className={`relative py-8 sm:py-10 lg:py-12 px-4 sm:px-6 lg:px-8 border-t-2 ${
         darkMode 
           ? 'bg-gray-900/95 border-purple-500/30' 
-          : 'bg-white/95 border-pink-200'
-      } backdrop-blur-sm transition-all duration-500 overflow-hidden`}
+          : 'bg-white/95 border-blue-200'
+      } backdrop-blur-sm transition-all duration-500 scroll-smooth`}
     >
-      {/* Animated Background Decoration - Portfolio Colors */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className={`absolute top-0 left-0 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 ${
-          darkMode ? 'bg-gradient-to-br from-pink-500 to-purple-500' : 'bg-gradient-to-br from-pink-300 to-purple-300'
-        } rounded-full blur-3xl animate-pulse-slow`}></div>
-        <div className={`absolute bottom-0 right-0 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 ${
-          darkMode ? 'bg-gradient-to-br from-purple-500 to-blue-500' : 'bg-gradient-to-br from-purple-300 to-blue-300'
-        } rounded-full blur-3xl animate-pulse-slow`} style={{animationDelay: '1s'}}></div>
-        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 sm:w-80 sm:h-80 ${
-          darkMode ? 'bg-gradient-to-br from-blue-500 to-pink-500' : 'bg-gradient-to-br from-blue-300 to-pink-300'
-        } rounded-full blur-3xl animate-pulse-slow`} style={{animationDelay: '2s'}}></div>
-      </div>
-
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-8 sm:mb-10 md:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* Brand Section */}
           <div 
             key={`brand-${animationKey}`}
-            className="text-center sm:text-left lg:col-span-1 animate-fade-in-up"
+            className="text-center sm:text-left animate-fade-in-up"
           >
-            <div className="flex items-center justify-center sm:justify-start gap-3 mb-4">
-              <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${
-                darkMode 
-                  ? 'from-pink-500 via-purple-500 to-blue-500' 
-                  : 'from-pink-400 via-purple-400 to-blue-400'
-              } flex items-center justify-center shadow-lg animate-float`}>
-                <Code2 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <h3 className={`text-xl sm:text-2xl md:text-3xl font-black bg-gradient-to-r ${
-                darkMode 
-                  ? 'from-pink-400 via-purple-400 to-blue-400' 
-                  : 'from-pink-600 via-purple-600 to-blue-600'
-              } bg-clip-text text-transparent`}>
-                Mishara Sandali
-              </h3>
+            <div
+              className={`text-lg sm:text-xl lg:text-2xl font-black bg-gradient-to-r mb-3 sm:mb-4 ${
+                darkMode
+                  ? 'from-blue-300 via-blue-400 to-blue-300'
+                  : 'from-blue-600 via-blue-600 to-blue-600'
+              } bg-clip-text text-transparent hover:scale-110 transition-transform duration-300 cursor-pointer`}
+            >
+              <span className="hidden sm:inline">◆ Mishara Sandali</span>
+              <span className="inline sm:hidden">◆ MS</span>
             </div>
-            <p className={`text-sm sm:text-base mb-3 ${
-              darkMode ? 'text-gray-400' : 'text-gray-600'
+          
+            <p className={`text-xs sm:text-sm mb-2 ${
+              darkMode ? 'text-gray-300' : 'text-gray-600'
             }`}>
               Frontend Developer & UI/UX Designer
             </p>
-            <p className={`text-xs sm:text-sm flex items-center justify-center sm:justify-start gap-2 ${
+            <p className={`text-xs flex items-center justify-center sm:justify-start gap-2 ${
               darkMode ? 'text-gray-500' : 'text-gray-500'
             }`}>
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
               Creating beautiful digital experiences
             </p>
           </div>
@@ -134,20 +89,20 @@ export default function Footer({ darkMode }: FooterProps) {
             className="text-center sm:text-left animate-fade-in-up"
             style={{animationDelay: '0.1s'}}
           >
-            <h4 className={`text-base sm:text-lg font-bold mb-4 sm:mb-5 ${
+            <h4 className={`text-sm sm:text-base lg:text-lg font-bold mb-3 sm:mb-4 ${
               darkMode ? 'text-white' : 'text-gray-900'
             }`}>
               Quick Links
             </h4>
-            <nav className="space-y-2 sm:space-y-3">
+            <nav className="space-y-2">
               {quickLinks.map((item, index) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className={`block text-sm sm:text-base transition-all duration-300 hover:translate-x-2 ${
+                  className={`block text-xs sm:text-sm transition-all duration-300 hover:translate-x-2 ${
                     darkMode 
-                      ? 'text-gray-400 hover:text-purple-400' 
-                      : 'text-gray-600 hover:text-purple-600'
+                      ? 'text-gray-400 hover:text-blue-400' 
+                      : 'text-gray-600 hover:text-blue-600'
                   }`}
                   style={{
                     animation: isVisible ? `slide-in-left 0.5s ease-out ${0.2 + index * 0.05}s both` : 'none'
@@ -165,87 +120,112 @@ export default function Footer({ darkMode }: FooterProps) {
             className="text-center sm:text-left animate-fade-in-up"
             style={{animationDelay: '0.2s'}}
           >
-            <h4 className={`text-base sm:text-lg font-bold mb-4 sm:mb-5 ${
+            <h4 className={`text-sm sm:text-base lg:text-lg font-bold mb-3 sm:mb-4 ${
               darkMode ? 'text-white' : 'text-gray-900'
             }`}>
               Connect With Me
             </h4>
             
             {/* Social Icons Grid */}
-            <div className="grid grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-5">
-              {socialLinks.map((social, index) => (
-                <a 
-                  key={social.label}
-                  href={social.href} 
-                  className={`w-full aspect-square rounded-xl bg-gradient-to-br ${
-                    social.gradient
-                  } flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg group animate-bounce-in`}
-                  style={{animationDelay: `${0.3 + index * 0.1}s`}}
-                  aria-label={social.label}
-                  title={social.label}
+            <div className="flex flex-wrap gap-3 justify-center sm:justify-start mb-3"> 
+              {[
+                {
+                  href: 'https://github.com/misharasandalidesilva',
+                  icon: <Github className="w-4 h-4" />,
+                  label: 'GitHub'
+                },
+                {
+                  href: 'https://www.linkedin.com/in/mishara-sandali-558557319/',
+                  icon: <Linkedin className="w-4 h-4" />,
+                  label: 'LinkedIn'
+                },
+                {
+                  href: 'mailto:misharasandali@gmail.com',
+                  icon: <Mail className="w-4 h-4" />,
+                  label: 'Email'
+                },
+                {
+                  href: 'https://wa.me/message/CXTCRIUAFFKLD1',
+                  icon: (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                    </svg>
+                  ),
+                  label: 'WhatsApp'
+                },
+              ].map((item, index) => (
+                <a
+                  key={index}
+                  href={item.href}
+                  target={item.href.startsWith('mailto:') ? '_self' : '_blank'}
+                  rel={item.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-md transform hover:scale-110 border ${
+                    darkMode
+                      ? 'bg-gray-800 text-gray-300 hover:text-blue-400 hover:bg-gray-700 border-blue-500'
+                      : 'bg-gray-100 text-gray-600 hover:text-blue-600 hover:bg-gray-200 border-blue-300'
+                  }`}
+                  aria-label={item.label}
                 >
-                  <div className="text-white group-hover:rotate-12 transition-transform duration-300">
-                    {social.icon}
-                  </div>
+                  {item.icon}
                 </a>
               ))}
             </div>
-
+            
             {/* Email */}
             <a 
-              href="mailto:mishara.sandali@example.com"
-              className={`text-xs sm:text-sm inline-flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 ${
+              href="mailto:misharasandali@gmail.com"
+              className={`text-xs inline-flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-300 ${
                 darkMode 
-                  ? 'text-gray-400 hover:text-purple-400 hover:bg-gray-800/50' 
-                  : 'text-gray-600 hover:text-purple-600 hover:bg-gray-100'
+                  ? 'text-gray-400 hover:text-blue-400 hover:bg-gray-800/50' 
+                  : 'text-gray-600 hover:text-blue-600 hover:bg-gray-100'
               }`}
             >
-              <Mail className="w-4 h-4" />
-              mishara.sandali@example.com
+              <Mail className="w-3 h-3" />
+              misharasandali@gmail.com
             </a>
           </div>
 
-          {/* Newsletter/CTA Section */}
+          {/* CTA Section */}
           <div 
             key={`cta-${animationKey}`}
             className="text-center sm:text-left animate-fade-in-up"
             style={{animationDelay: '0.3s'}}
           >
-            <h4 className={`text-base sm:text-lg font-bold mb-4 sm:mb-5 ${
+            <h4 className={`text-sm sm:text-base lg:text-lg font-bold mb-3 sm:mb-4 ${
               darkMode ? 'text-white' : 'text-gray-900'
             }`}>
               Let's Collaborate
             </h4>
-            <p className={`text-xs sm:text-sm mb-4 ${
+            <p className={`text-xs mb-3 sm:mb-4 ${
               darkMode ? 'text-gray-400' : 'text-gray-600'
             }`}>
               Have a project in mind? Let's create something amazing together!
             </p>
             <a
               href="#contact"
-              className={`inline-flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-full bg-gradient-to-r ${
+              className={`inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-gradient-to-r ${
                 darkMode 
-                  ? 'from-pink-500 via-purple-500 to-blue-500 hover:from-pink-400 hover:via-purple-400 hover:to-blue-400' 
-                  : 'from-pink-400 via-purple-400 to-blue-400 hover:from-pink-500 hover:via-purple-500 hover:to-blue-500'
-              } text-white text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group`}
+                  ? 'from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500' 
+                  : 'from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600'
+              } text-white text-xs sm:text-sm font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group`}
             >
               Get In Touch
-              <ArrowUp className="w-4 h-4 rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+              <ArrowUp className="w-3 h-3 sm:w-4 sm:h-4 rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
             </a>
           </div>
         </div>
 
-        {/* Divider with Animation */}
-        <div className={`border-t-2 ${
+        {/* Divider */}
+        <div className={`border-t ${
           darkMode ? 'border-gray-800' : 'border-gray-200'
-        } my-6 sm:my-8 animate-scale-x`}></div>
+        } my-6 animate-scale-x`}></div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
           {/* Copyright */}
           <p 
             key={`copyright-${animationKey}`}
-            className={`text-xs sm:text-sm font-medium text-center sm:text-left animate-fade-in ${
+            className={`text-xs text-center sm:text-left animate-fade-in ${
               darkMode ? 'text-gray-400' : 'text-gray-600'
             }`}
             style={{animationDelay: '0.4s'}}
@@ -253,49 +233,34 @@ export default function Footer({ darkMode }: FooterProps) {
             © {currentYear} Mishara Sandali. All rights reserved.
           </p>
 
-          {/* Made with Love */}
-          <p 
-            key={`made-${animationKey}`}
-            className={`text-xs sm:text-sm flex items-center gap-2 animate-fade-in ${
-              darkMode ? 'text-gray-400' : 'text-gray-600'
-            }`}
-            style={{animationDelay: '0.5s'}}
-          >
-            Built with 
-            <Heart className={`w-4 h-4 ${
-              darkMode ? 'text-pink-500' : 'text-pink-600'
-            } animate-heartbeat`} fill="currentColor" />
-            using React & Tailwind CSS
-          </p>
-
           {/* Scroll to Top Button */}
           <button
             key={`scroll-${animationKey}`}
             onClick={scrollToTop}
-            className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br ${
+            className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br ${
               darkMode 
-                ? 'from-pink-500 via-purple-500 to-blue-500' 
-                : 'from-pink-400 via-purple-400 to-blue-400'
-            } flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg group animate-bounce-slow`}
-            style={{animationDelay: '0.6s'}}
+                ? 'from-blue-500 to-blue-600' 
+                : 'from-blue-400 to-blue-500'
+            } flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg group`}
+            style={{animationDelay: '0.5s'}}
             aria-label="Scroll to top"
           >
-            <ArrowUp className="w-5 h-5 text-white group-hover:-translate-y-1 transition-transform duration-300" />
+            <ArrowUp className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover:-translate-y-1 transition-transform duration-300" />
           </button>
         </div>
 
         {/* Additional Info */}
         <div 
           key={`info-${animationKey}`}
-          className={`mt-6 sm:mt-8 pt-6 sm:pt-8 border-t ${
+          className={`mt-6 pt-6 border-t ${
             darkMode ? 'border-gray-800/50' : 'border-gray-200/50'
           } text-center animate-fade-in`}
-          style={{animationDelay: '0.7s'}}
+          style={{animationDelay: '0.6s'}}
         >
           <p className={`text-xs flex items-center justify-center gap-2 ${
             darkMode ? 'text-gray-500' : 'text-gray-500'
           }`}>
-            <Code2 className="w-4 h-4" />
+            <Code2 className="w-3 h-3 sm:w-4 sm:h-4" />
             Designed & Developed with passion by Mishara Sandali
           </p>
         </div>
@@ -303,46 +268,12 @@ export default function Footer({ darkMode }: FooterProps) {
 
       {/* Custom Animations */}
       <style>{`
-        @keyframes pulse-slow {
-          0%, 100% {
-            opacity: 0.5;
-          }
-          50% {
-            opacity: 0.3;
-          }
+        * {
+          scroll-behavior: smooth;
         }
-
-        @keyframes heartbeat {
-          0%, 100% {
-            transform: scale(1);
-          }
-          25% {
-            transform: scale(1.2);
-          }
-          50% {
-            transform: scale(1);
-          }
-          75% {
-            transform: scale(1.1);
-          }
-        }
-
-        @keyframes bounce-slow {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-5px);
-          }
-        }
-
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-10px) rotate(5deg);
-          }
+        
+        html {
+          scroll-behavior: smooth;
         }
 
         @keyframes fade-in {
@@ -376,17 +307,6 @@ export default function Footer({ darkMode }: FooterProps) {
           }
         }
 
-        @keyframes bounce-in {
-          from {
-            opacity: 0;
-            transform: scale(0.5);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
         @keyframes scale-x {
           from {
             transform: scaleX(0);
@@ -394,22 +314,6 @@ export default function Footer({ darkMode }: FooterProps) {
           to {
             transform: scaleX(1);
           }
-        }
-        
-        .animate-pulse-slow {
-          animation: pulse-slow 4s ease-in-out infinite;
-        }
-
-        .animate-heartbeat {
-          animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        .animate-bounce-slow {
-          animation: bounce-slow 2s ease-in-out infinite;
-        }
-
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
         }
 
         .animate-fade-in {
@@ -419,11 +323,6 @@ export default function Footer({ darkMode }: FooterProps) {
 
         .animate-fade-in-up {
           animation: fade-in-up 0.8s ease-out forwards;
-          opacity: 0;
-        }
-
-        .animate-bounce-in {
-          animation: bounce-in 0.5s ease-out forwards;
           opacity: 0;
         }
 
