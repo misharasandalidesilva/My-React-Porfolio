@@ -116,7 +116,7 @@ export default function AboutMe({ darkMode = true, aboutImage, setAboutImage }: 
             
             <div className="flex flex-wrap gap-3 xs:gap-3.5 sm:gap-4 justify-center lg:justify-start mt-4 xs:mt-5 sm:mt-6 md:mt-7 lg:mt-8 animate-fade-in" style={{ animationDelay: '0.4s' }}>
               <a
-                href="/path/to/your/resume.pdf"
+                href="src/assets/Mishara  CV.pdf"
                 className={`${darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'} text-white px-4 py-2 xs:px-5 xs:py-2.5 sm:px-5 sm:py-3 text-xs xs:text-sm sm:text-sm md:text-base rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg font-medium`}
               >
                 My Resume

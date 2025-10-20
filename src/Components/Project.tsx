@@ -43,22 +43,22 @@ export default function Projects({ darkMode = true }: ProjectsProps) {
       color: 'from-blue-500 to-blue-700'
     },
     {
-      title: 'Task Management App',
-      description: 'Collaborative task management tool with real-time updates, notifications, and team collaboration features.',
-      image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80',
-      technologies: ['React', 'Firebase', 'Tailwind CSS'],
-      github: 'https://github.com',
-      live: 'https://example.com',
-      color: 'from-purple-500 to-purple-700'
+      title: 'Recipe Website',
+      description: 'Responsive recipe website with elegant card-based design and beautiful layout for seamless culinary browsing experience.',
+      image: 'src/assets/Screenshot 2025-10-13 173622.png',
+      technologies: ['HTML', 'CSS', ' Firebase'],
+      github: 'https://github.com/misharasandalidesilva/Recipe-Website.git',
+      live: 'src/assets/Screen Recording 2025-10-13 175013.mp4',
+      color: 'from-purple-400 to-purple-600'
     },
     {
-      title: 'Weather Dashboard',
+      title: 'Hotel Website',
       description: 'Real-time weather application with forecasts, interactive maps, and location-based weather alerts.',
-      image: 'https://images.unsplash.com/photo-1592210454359-9043f067919b?w=800&q=80',
+      image: 'src/assets/Screenshot 2025-10-13 215625.png',
       technologies: ['React', 'Weather API', 'Chart.js'],
-      github: 'https://github.com',
+      github: 'https://github.com/misharasandalidesilva/Hotel-Website.git',
       live: 'https://example.com',
-      color: 'from-cyan-500 to-cyan-700'
+      color: 'from-cyan-400 to-cyan-600'
     },
     {
       title: 'Social Media Dashboard',
