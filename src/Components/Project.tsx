@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Github, Code2 } from 'lucide-react';
 
 interface ProjectsProps {

@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Moon, Sun, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
@@ -14,9 +14,7 @@ export default function Navbar({
   darkMode,        
   setDarkMode,      
   menuOpen, 
-  setMenuOpen, 
-  activeSection, 
-  scrollTo 
+  setMenuOpen
 }: NavbarProps) {
   const navItems = [
     { name: 'Home', id: 'home' },

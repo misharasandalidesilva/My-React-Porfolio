@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Code2, Server, Database, Smartphone, Palette, Settings } from 'lucide-react';
 
 interface SkillsProps {

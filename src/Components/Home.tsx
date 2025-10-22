@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Github, Linkedin, Mail, Facebook, ChevronDown } from 'lucide-react';
 
 interface HomeProps {
