@@ -48,7 +48,7 @@ export default function Projects({ darkMode = true }: ProjectsProps) {
       image: 'src/assets/Screenshot 2025-10-13 173622.png',
       technologies: ['HTML', 'CSS', ' Firebase'],
       github: 'https://github.com/misharasandalidesilva/Recipe-Website.git',
-      live: 'src/assets/Screen Recording 2025-10-13 175013.mp4',
+      live: 'https://example.com',
       color: 'from-purple-400 to-purple-600'
     },
     {
