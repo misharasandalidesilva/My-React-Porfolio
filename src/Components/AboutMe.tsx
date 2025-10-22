@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface AboutMeProps {
   darkMode: boolean;
@@ -6,7 +6,7 @@ interface AboutMeProps {
   setAboutImage?: (image: string) => void;
 }
 
-export default function AboutMe({ darkMode = true, aboutImage, setAboutImage }: AboutMeProps) {
+export default function AboutMe({ darkMode = true }: AboutMeProps) {
   const [animationKey, setAnimationKey] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -33,15 +33,15 @@ export default function AboutMe({ darkMode = true, aboutImage, setAboutImage }: 
     };
   }, []);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0 && setAboutImage) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => setAboutImage(reader.result as string);
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = e.target.files;
+  //   if (files && files.length > 0 && setAboutImage) {
+  //     const file = files[0];
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => setAboutImage(reader.result as string);
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   return (
     <section 

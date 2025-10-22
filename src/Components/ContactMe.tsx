@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Facebook, MessageSquare } from 'lucide-react';
 
 interface ContactProps {
