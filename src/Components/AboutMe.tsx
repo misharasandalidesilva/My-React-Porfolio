@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import myimg from '../assets/my.jpg'
 
 interface AboutMeProps {
   darkMode: boolean;
@@ -79,7 +80,7 @@ export default function AboutMe({ darkMode = true }: AboutMeProps) {
               {/* Image container */}
               <div className={`absolute inset-0 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl overflow-hidden border-2 sm:border-3 md:border-4 ${darkMode ? 'border-blue-500' : 'border-blue-400'} shadow-2xl transform hover:scale-105 transition-transform duration-300`}>
                 <img
-                  src="../src/assets/WhatsApp Image 2025-04-01 at 23.19.28_f94ecae7.jpg"
+                  src= {myimg}
                   alt="Mishara Sandali"
                   className="w-full h-full object-cover"
                 />
