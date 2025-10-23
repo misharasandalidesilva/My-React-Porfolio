@@ -47,7 +47,7 @@ export default function Projects({ darkMode = true }: ProjectsProps) {
     {
       title: 'Recipe Website',
       description: 'Responsive recipe website with elegant card-based design and beautiful layout for seamless culinary browsing experience.',
-      image: {recepyimg},
+      image: recepyimg,
       technologies: ['HTML', 'CSS', ' Firebase'],
       github: 'https://github.com/misharasandalidesilva/Recipe-Website.git',
       live: 'https://example.com',
@@ -56,7 +56,7 @@ export default function Projects({ darkMode = true }: ProjectsProps) {
     {
       title: 'Hotel Website',
       description: 'Real-time weather application with forecasts, interactive maps, and location-based weather alerts.',
-      image: {hotelimg},
+      image: hotelimg,
       technologies: ['React', 'Weather API', 'Chart.js'],
       github: 'https://github.com/misharasandalidesilva/Hotel-Website.git',
       live: 'https://example.com',
