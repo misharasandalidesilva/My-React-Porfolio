@@ -69,7 +69,7 @@ export default function Home({ darkMode = true }: HomeProps) {
                 key={`${animationKey}-${index}`}
                 className="inline-block animate-letter"
                 style={{
-                  animationDelay: `${index * 0.1}s`,
+                  animationDelay: `${index * 0.04}s`,
                   backgroundImage: darkMode
                     ? 'linear-gradient(to right, rgb(96, 165, 250), rgb(147, 197, 253), rgb(96, 165, 250))'
                     : 'linear-gradient(to right, rgb(37, 99, 235), rgb(59, 130, 246), rgb(37, 99, 235))',
@@ -91,7 +91,7 @@ export default function Home({ darkMode = true }: HomeProps) {
             darkMode ? 'text-white' : 'text-gray-800'
           } animate-content`}
           style={{
-            animationDelay: '1.6s'
+            animationDelay: '0.6s'
           }}
         >
           Software Engineer & Frontend Developer / UI/UX Designer
@@ -103,7 +103,7 @@ export default function Home({ darkMode = true }: HomeProps) {
             darkMode ? 'text-gray-300' : 'text-gray-700'
           } animate-content`}
           style={{
-            animationDelay: '1.8s'
+            animationDelay: '0.8s'
           }}
         >
           Crafting beautiful, responsive, and user-friendly interfaces that turn ideas into reality.
@@ -115,7 +115,7 @@ export default function Home({ darkMode = true }: HomeProps) {
           key={`social-${animationKey}`}
           className="flex flex-wrap gap-3 xs:gap-4 sm:gap-6 justify-center animate-content"
           style={{
-            animationDelay: '2s'
+            animationDelay: '1s'
           }}
         >
           {[

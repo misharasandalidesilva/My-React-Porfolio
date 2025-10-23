@@ -71,12 +71,13 @@ export default function Contact({ darkMode = true }: ContactProps) {
       
       const data = await response.json();
       
-      if (response.ok && data.success) {
-        alert('Message sent successfully! 🎉 I will get back to you soon.');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else {
-        throw new Error('Failed to send');
-      }
+      if (response.ok) {
+  alert('Message sent successfully! 🎉 I will get back to you soon.');
+  setFormData({ name: '', email: '', subject: '', message: '' });
+} else {
+  throw new Error('Failed to send');
+}
+
     } catch (error) {
       console.error('Error:', error);
       const mailtoLink = `mailto:misharasandali@gmail.com?subject=${encodeURIComponent(formData.subject || 'Contact Form Message')}&body=${encodeURIComponent(
@@ -145,7 +146,7 @@ export default function Contact({ darkMode = true }: ContactProps) {
         <div className="text-center mb-10 lg:mb-12">
           <h2 
             key={`title-${animationKey}`}
-            className={`text-3xl sm:text-4xl lg:text-4xl xl:text-5xl font-black mb-4 bg-gradient-to-r ${
+            className={`text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black mb-4 bg-gradient-to-r ${
               darkMode 
                 ? 'from-blue-200 to-blue-400' 
                 : 'from-blue-600 to-blue-800'
@@ -155,7 +156,7 @@ export default function Contact({ darkMode = true }: ContactProps) {
           </h2>
           <p 
             key={`subtitle-${animationKey}`}
-            className={`text-sm sm:text-base lg:text-lg animate-fade-in ${
+            className={`text-xs xs:text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg animate-fade-in ${
               darkMode ? 'text-gray-300' : 'text-gray-700'
             }`}
             style={{ animationDelay: '0.2s' }}
@@ -190,7 +191,7 @@ export default function Contact({ darkMode = true }: ContactProps) {
                       <p className={`text-sm mb-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                         {info.title}
                       </p>
-                      <p className={`text-base sm:text-lg font-semibold break-words ${
+                      <p className={`text-sm sm:text-lg font-semibold break-words ${
                         darkMode ? 'text-white' : 'text-gray-900'
                       }`}>
                         {info.value}
@@ -273,7 +274,7 @@ export default function Contact({ darkMode = true }: ContactProps) {
               }`}>
                 💡 Quick Response
               </h3>
-              <p className={`text-sm sm:text-base leading-relaxed ${
+              <p className={`text-xs sm:text-base leading-relaxed ${
                 darkMode ? 'text-gray-200' : 'text-gray-700'
               }`}>
                 I typically respond within 24 hours. Looking forward to hearing from you!
@@ -299,6 +300,7 @@ export default function Contact({ darkMode = true }: ContactProps) {
                   Your Name
                 </label>
                 <input
+                
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
