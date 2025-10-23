@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Facebook, MessageSquare } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 interface ContactProps {
   darkMode?: boolean;
@@ -28,15 +29,8 @@ export default function Contact({ darkMode = true }: ContactProps) {
       { threshold: 0.2 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); }
   }, []);
 
   const handleSubmit = async () => {
@@ -54,42 +48,24 @@ export default function Contact({ darkMode = true }: ContactProps) {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/misharasandali@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject || 'New Contact Form Message',
-          message: formData.message,
-          _captcha: 'false',
-        }),
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-  alert('Message sent successfully! 🎉 I will get back to you soon.');
-  setFormData({ name: '', email: '', subject: '', message: '' });
-} else {
-  throw new Error('Failed to send');
-}
+      await emailjs.send(
+  'service_ktfwa9j',    
+  'template_0x5wjmn',   
+  {
+    from_name: formData.name,
+    from_email: formData.email,
+    subject: formData.subject || 'New Contact Form Message',
+    message: formData.message,
+  },
+  'ed19BH-0EpWLCER_2'
+);
 
+
+      alert('Message sent successfully! 🎉 I will get back to you soon.');
+      setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
-      console.error('Error:', error);
-      const mailtoLink = `mailto:misharasandali@gmail.com?subject=${encodeURIComponent(formData.subject || 'Contact Form Message')}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`;
-      
-      window.location.href = mailtoLink;
-      
-      setTimeout(() => {
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        alert('Opening your email client... Please send the email. 📧');
-      }, 500);
+      console.error('EmailJS Error:', error);
+      alert('Failed to send email. Please try again later. ⚠️');
     } finally {
       setIsSubmitting(false);
     }
@@ -103,7 +79,6 @@ export default function Contact({ darkMode = true }: ContactProps) {
 
     const message = `*New Contact Message*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email || 'Not provided'}%0A*Subject:* ${formData.subject || 'N/A'}%0A%0A*Message:*%0A${formData.message}`;
     window.open(`https://wa.me/94704044549?text=${message}`, '_blank');
-    
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
