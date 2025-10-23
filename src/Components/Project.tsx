@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Github, Code2 } from 'lucide-react';
+import recepyimg from'../assets/recipe.png';
+import hotelimg from'../assets/hotel.png';
 
 interface ProjectsProps {
   darkMode?: boolean;
@@ -45,7 +47,7 @@ export default function Projects({ darkMode = true }: ProjectsProps) {
     {
       title: 'Recipe Website',
       description: 'Responsive recipe website with elegant card-based design and beautiful layout for seamless culinary browsing experience.',
-      image: 'src/assets/Screenshot 2025-10-13 173622.png',
+      image: {recepyimg},
       technologies: ['HTML', 'CSS', ' Firebase'],
       github: 'https://github.com/misharasandalidesilva/Recipe-Website.git',
       live: 'https://example.com',
@@ -54,7 +56,7 @@ export default function Projects({ darkMode = true }: ProjectsProps) {
     {
       title: 'Hotel Website',
       description: 'Real-time weather application with forecasts, interactive maps, and location-based weather alerts.',
-      image: 'src/assets/Screenshot 2025-10-13 215625.png',
+      image: {hotelimg},
       technologies: ['React', 'Weather API', 'Chart.js'],
       github: 'https://github.com/misharasandalidesilva/Hotel-Website.git',
       live: 'https://example.com',
