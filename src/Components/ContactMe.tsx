@@ -34,7 +34,8 @@ export default function Contact({ darkMode = true }: ContactProps) {
   }, []);
 
   const handleSubmit = async () => {
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name || !formData.email || !formData.message ) {
+      console.log("hyyyyyyyyyyyyy" ,formData.email);
       alert('Please fill in all required fields! ⚠️');
       return;
     }

@@ -94,7 +94,7 @@ export default function Home({ darkMode = true }: HomeProps) {
             animationDelay: '0.6s'
           }}
         >
-          Software Engineer & Frontend Developer / UI/UX Designer
+          UI/UX Designer & Frontend Developer 
         </p>
 
         <p

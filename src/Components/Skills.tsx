@@ -34,6 +34,14 @@ export default function Skills({ darkMode }: SkillsProps) {
 
   const skillCategories = [
     {
+      title: 'Design & UI/UX',
+      description: 'Crafting beautiful user interfaces',
+      icon: <Palette className="w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5 md:w-6 md:h-6" />,
+      gradient: 'from-indigo-500 to-purple-500',
+      borderColor: 'border-indigo-500/30 hover:border-indigo-500',
+      skills: ['Figma', 'Adobe XD', 'UI Design', 'Prototyping']
+    },
+    {
       title: 'Frontend Development',
       description: 'Building responsive and interactive user interfaces',
       icon: <Code2 className="w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5 md:w-6 md:h-6" />,
@@ -72,14 +80,6 @@ export default function Skills({ darkMode }: SkillsProps) {
       gradient: 'from-pink-500 to-rose-500',
       borderColor: 'border-pink-500/30 hover:border-pink-500',
       skills: ['React Native', 'iOS', 'Android']
-    },
-    {
-      title: 'Design & UI/UX',
-      description: 'Crafting beautiful user interfaces',
-      icon: <Palette className="w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5 md:w-6 md:h-6" />,
-      gradient: 'from-indigo-500 to-purple-500',
-      borderColor: 'border-indigo-500/30 hover:border-indigo-500',
-      skills: ['Figma', 'Adobe XD', 'UI Design', 'Prototyping']
     }
   ];
 

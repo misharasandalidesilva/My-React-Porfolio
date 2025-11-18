@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Github, Code2 } from 'lucide-react';
 import recepyimg from'../assets/recipe.png';
 import hotelimg from'../assets/hotel.png';
+import portfolioimg from'../assets/ChatGPT Image Nov 7, 2025, 06_38_48 PM.png';
+import medicalimg from'../assets/Screenshot 2025-04-16 215641.png';
 
 interface ProjectsProps {
   darkMode?: boolean;
@@ -36,59 +38,60 @@ export default function Projects({ darkMode = true }: ProjectsProps) {
 
   const projects = [
     {
-      title: 'E-Commerce Platform',
-      description: 'A full-stack e-commerce application with shopping cart, payment integration, and admin dashboard.',
-      image: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-      github: 'https://github.com',
-      live: 'https://example.com',
-      color: 'from-blue-500 to-blue-700'
+      title: 'Portfolio',
+      description: 'My Portfolio is a modern and responsive website that showcases my skills, projects, and creativity in a simple and professional way.',
+      image: portfolioimg,
+      technologies: ['React', 'TypeScript', 'Tailwind CSS'],
+      github: 'https://github.com/misharasandalidesilva/My-React-Porfolio.git',
+      // live: 'https://example.com',
+      color: 'from-blue-700 to-blue-700'
     },
+    // {
+    //   title: 'E-Commerce Platform',
+    //   description: 'A full-stack e-commerce application with shopping cart, payment integration, and admin dashboard.',
+    //   image: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80',
+    //   technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+    //   github: 'https://github.com',
+    //   // live: 'https://example.com',
+    //   color: 'from-orange-500 to-orange-700'
+    // },
     {
-      title: 'Recipe Website',
-      description: 'Responsive recipe website with elegant card-based design and beautiful layout for seamless culinary browsing experience.',
-      image: recepyimg,
-      technologies: ['HTML', 'CSS', ' Firebase'],
-      github: 'https://github.com/misharasandalidesilva/Recipe-Website.git',
-      live: 'https://example.com',
+      title: 'Medical Channeling center',
+      description: 'A Private Medical Channeling Center helps patients quickly book doctor appointments, access lab tests, and get medical services efficiently.',
+      image: medicalimg,
+      technologies: ['HTML', 'CSS', ' Firebase','Springboot'],
+      github: 'https://github.com/misharasandalidesilva/Medical-Channeling-Center.git',
+      // live: 'https://example.com',
       color: 'from-purple-400 to-purple-600'
     },
     {
       title: 'Hotel Website',
       description: 'Real-time weather application with forecasts, interactive maps, and location-based weather alerts.',
       image: hotelimg,
-      technologies: ['React', 'Weather API', 'Chart.js'],
+      technologies: ['Boostrap', 'JavaScript', 'HTML','CSS'],
       github: 'https://github.com/misharasandalidesilva/Hotel-Website.git',
-      live: 'https://example.com',
+      // live: 'https://example.com',
       color: 'from-cyan-400 to-cyan-600'
     },
-    {
-      title: 'Social Media Dashboard',
-      description: 'Analytics dashboard for social media management with insights, scheduling, and engagement tracking.',
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
-      technologies: ['React', 'TypeScript', 'Redux'],
-      github: 'https://github.com',
-      live: 'https://example.com',
-      color: 'from-pink-500 to-pink-700'
-    },
-    {
-      title: 'Fitness Tracker',
-      description: 'Mobile-first fitness tracking application with workout plans, progress tracking, and nutrition guide.',
-      image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
-      technologies: ['React Native', 'Firebase', 'Redux'],
-      github: 'https://github.com',
-      live: 'https://example.com',
-      color: 'from-green-500 to-green-700'
-    },
-    {
-      title: 'Portfolio Generator',
-      description: 'Web application that helps developers create beautiful portfolio websites with customizable templates.',
-      image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80',
-      technologies: ['React', 'Next.js', 'Tailwind CSS'],
-      github: 'https://github.com',
-      live: 'https://example.com',
-      color: 'from-orange-500 to-orange-700'
-    }
+    // {
+    //   title: 'Social Media Dashboard',
+    //   description: 'Analytics dashboard for social media management with insights, scheduling, and engagement tracking.',
+    //   image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
+    //   technologies: ['React', 'TypeScript', 'Redux'],
+    //   github: 'https://github.com',
+    //   // live: 'https://example.com',
+    //   color: 'from-pink-500 to-pink-700'
+    // },
+    // {
+    //   title: 'Fitness Tracker',
+    //   description: 'Mobile-first fitness tracking application with workout plans, progress tracking, and nutrition guide.',
+    //   image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
+    //   technologies: ['React Native', 'Firebase', 'Redux'],
+    //   github: 'https://github.com',
+    //   // live: 'https://example.com',
+    //   color: 'from-green-500 to-green-700'
+    // },
+    
   ];
 
   return (
@@ -151,14 +154,14 @@ export default function Projects({ darkMode = true }: ProjectsProps) {
                   >
                     <Github className="w-4 h-4 xs:w-4 xs:h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 text-blue-200" />
                   </a>
-                  <a
+                  {/* <a
                     href={project.live}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1.5 xs:p-2 sm:p-2 md:p-2.5 lg:p-3 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition-all duration-200 transform hover:scale-110"
                   >
                     <ExternalLink className="w-4 h-4 xs:w-4 xs:h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 text-blue-200" />
-                  </a>
+                  </a> */}
                 </div>
               </div>
 
