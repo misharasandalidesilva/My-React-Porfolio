@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Github, Code2 } from 'lucide-react';
 import recepyimg from'../assets/recipe.png';
-import hotelimg from'../assets/hotel.png';
+import mobileapp from'../assets/Gemini_Generated_Image_f05wxaf05wxaf05w.png';
 import portfolioimg from'../assets/ChatGPT Image Nov 7, 2025, 06_38_48 PM.png';
-import medicalimg from'../assets/Screenshot 2025-04-16 215641.png';
+import medicalimg from'../assets/Gemini_Generated_Image_77thaj77thaj77th.png';
 
 interface ProjectsProps {
   darkMode?: boolean;
@@ -44,7 +44,7 @@ export default function Projects({ darkMode = true }: ProjectsProps) {
       technologies: ['React', 'TypeScript', 'Tailwind CSS'],
       github: 'https://github.com/misharasandalidesilva/My-React-Porfolio.git',
       // live: 'https://example.com',
-      color: 'from-blue-700 to-blue-700'
+      color: 'from-blue-600'
     },
     // {
     //   title: 'E-Commerce Platform',
@@ -62,16 +62,16 @@ export default function Projects({ darkMode = true }: ProjectsProps) {
       technologies: ['HTML', 'CSS', ' Firebase','Springboot'],
       github: 'https://github.com/misharasandalidesilva/Medical-Channeling-Center.git',
       // live: 'https://example.com',
-      color: 'from-purple-400 to-purple-600'
+      color: 'from-cyan-400'
     },
     {
-      title: 'Hotel Website',
-      description: 'Real-time weather application with forecasts, interactive maps, and location-based weather alerts.',
-      image: hotelimg,
-      technologies: ['Boostrap', 'JavaScript', 'HTML','CSS'],
+      title: 'To-Do List Mobile App',
+      description: 'A high-fidelity UI design for a task management app, built using React Native to ensure a clean, efficient, and cross-platform user experience.',
+      image: mobileapp,
+      technologies: ['React Native', 'Expo Router','Tailwind'],
       github: 'https://github.com/misharasandalidesilva/Hotel-Website.git',
       // live: 'https://example.com',
-      color: 'from-cyan-400 to-cyan-600'
+      color: 'from-purple-400'
     },
     // {
     //   title: 'Social Media Dashboard',
